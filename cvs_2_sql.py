@@ -11,12 +11,12 @@ import getopt
 #Le separateur du fichier CSV
 SEPARATEUR = ';'
 
-# Fonction qui prend en arguments :
-# Le nom de la table SQL
-# Une liste contenant les noms des champs
-# Une liste de liste contenant les informations
-# Et qui renvoi la requete SQL 
 def create_requete_SQL(nom_table,liste_header,liste_contenu):
+	"""
+	Return the SQL Insert Query 
+	INSERT INTO nom_table (liste_header) VALUES (liste_contenu); 
+	"""
+	
 	requete = 'INSERT INTO '
 	requete += nom_table
 	requete +=" ("
@@ -48,11 +48,11 @@ def create_requete_SQL(nom_table,liste_header,liste_contenu):
 	requete +=" ;"
 	return requete
 
-# Fonction qui prend en arguments :
-# Le nom du fichier csv contenant les informations
-# Et qui renvoi la requete SQL
 def create_requete(nom_fichier):
-	
+	"""
+	Returns the SQL Insert Query of nom_fichier.cvs
+	with nom_fichier as table name
+	"""
 	nom_table = '.'.join(nom_fichier.split('.')[:-1])
 	
 	csv_reader = csv.reader(open(nom_fichier,"rU"),delimiter=SEPARATEUR,quotechar='|')
@@ -68,11 +68,12 @@ def create_requete(nom_fichier):
 	
 	return create_requete_SQL(nom_table,liste_header,liste_contenu)
 
-# Fonction principale qui prend une serie de .csv en argument
-# Et ecrit les requetes SQL correspondante dans un fichier .sql
-# Par defaut requete.sql mais specifiable avec l'option -o
 def main(argv):
-	
+	"""
+	Main function that take .cvs files and make the
+	SQL Insert Query in a file requete.sql or specify 
+	by the option -o
+	"""
 	nom_fichier = "requete.sql"
 	try:
 		opts, args = getopt.getopt(argv, "ho:", ["help"])
